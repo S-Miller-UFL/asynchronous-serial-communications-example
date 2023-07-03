@@ -1,5 +1,5 @@
 ;*******************************************
-;Lab 5, Section 5
+;Lab 5, Section 6
 ;Name: Steven Miller
 ;Class #: 11318
 ;PI Name: Anthony Stross
@@ -13,6 +13,11 @@
 ;*********************************EQUATES********************************
 .equ bsel = 47
 .equ bscale = -6
+.EQU SRAM_TABLE_LOC = 0x2000
+.EQU SRAM_TABLE_SIZE = 500
+.EQU return_char = 0x0d
+.EQU backspace_char = 0x08
+.EQU delete_char = 0x7f
 ;*******************************END OF EQUATES*******************************
 
 ;*********************************DEFS********************************
@@ -22,6 +27,10 @@
 ;***********END OF PROGRAM MEMORY CONFIGURATION***************
 
 ;***********DATA MEMORY CONFIGURATION*************************
+.DSEG
+.org SRAM_TABLE_LOC
+DATA_MEMORY: 
+.BYTE SRAM_TABLE_SIZE
 
 ;***********END OF DATA MEMORY CONFIGURATION***************
 
@@ -38,9 +47,11 @@ main:
 	ldi r16, high(0x3fff)
 	out CPU_SPH, r16
 	rcall USART_INIT
+	ldi yl, low(sram_table_loc)
+	ldi yh, high(sram_table_loc)
 	loop:
-		rcall IN_CHAR
-		rcall OUT_CHAR
+		rcall IN_STRING
+		rcall OUT_STRING_DATA_MEMORY
 	rjmp loop
 end:
 rjmp end
@@ -111,3 +122,59 @@ IN_CHAR:
 	lds r16, USARTD0_DATA
 	pop r17
 ret
+;****************************************************
+; Name: IN_STRING
+; Purpose: RECIEVES CHARACTER STRING FROM USB TO RECIEVER
+; Input(s):USARTD0_DATA
+; Output:N/A
+;****************************************************
+IN_STRING:
+	push r16
+	push r17
+	read_string:
+		RCALL IN_CHAR
+		mov r17, r16
+		;check if character is return
+		cpi r17, return_char
+		breq is_return
+		;check if character is backspace
+		cpi r17, backspace_char
+		breq is_backspace_or_delete
+		;check if character is delete
+		cpi r17, delete_char
+		breq is_backspace_or_delete
+		;if none
+		st y+, r16
+		rjmp read_string
+		;if character is backspace or delete
+		is_backspace_or_delete:
+		sbiw y, 1
+	rjmp read_string
+	;if return
+	is_return:
+	ldi r16, 0x00
+	st y, r16
+	pop r17
+	pop r16
+ret
+;****************************************************
+; Name: OUT_STRING_DATA_MEMORY
+; Purpose:TRANSMIT CHARACTER STRING IN DATA MEMORY OUT OF PORT D TO USB 
+; Input(s): N/A
+; Output: USARTD0_DATA
+;****************************************************
+OUT_STRING_DATA_MEMORY:
+	push r16
+	read_string_data_mem:
+	;read character pointed to by y
+	ld r16, y+
+	;check if null
+	cpi r16, 0x00
+	breq null
+	not_null:
+	rcall OUT_CHAR
+	rjmp read_string_data_mem
+	null:
+	pop r16
+ret
+

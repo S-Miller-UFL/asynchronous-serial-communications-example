@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm Sun Jul 02 21:58:29 2023
+AVRASM ver. 2.2.8  C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm Mon Jul 03 09:56:49 2023
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc\ATxmega128A1Udef.inc'
 C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc\ATxmega128a1udef.inc'
@@ -6850,7 +6850,7 @@ C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file '
                                  	;check if reciever busy
                                  	reciever_busy:
 00022c 9110 09a1                 	lds r17, USARTD0_STATUS
-00022e ff15                      	sbrs r17, USART_DREIF_bp
+00022e ff17                      	sbrs r17, USART_RXCIF_bp
 00022f cffc                      	rjmp reciever_busy
                                  	;load character into reciever data register
 000230 9100 09a0                 	lds r16, USARTD0_DATA
