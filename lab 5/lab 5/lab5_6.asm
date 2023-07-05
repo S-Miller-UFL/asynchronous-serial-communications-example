@@ -129,19 +129,17 @@ ret
 ; Output:N/A
 ;****************************************************
 IN_STRING:
-	push r16
-	push r17
+
 	read_string:
 		RCALL IN_CHAR
-		mov r17, r16
 		;check if character is return
-		cpi r17, return_char
+		cpi r16, return_char
 		breq is_return
 		;check if character is backspace
-		cpi r17, backspace_char
+		cpi r16, backspace_char
 		breq is_backspace_or_delete
 		;check if character is delete
-		cpi r17, delete_char
+		cpi r16, delete_char
 		breq is_backspace_or_delete
 		;if none
 		st y+, r16
@@ -154,8 +152,9 @@ IN_STRING:
 	is_return:
 	ldi r16, 0x00
 	st y, r16
-	pop r17
-	pop r16
+	;reset y pointer
+	ldi yl, low(sram_table_loc)
+	ldi yh, high(sram_table_loc)
 ret
 ;****************************************************
 ; Name: OUT_STRING_DATA_MEMORY
@@ -166,15 +165,15 @@ ret
 OUT_STRING_DATA_MEMORY:
 	push r16
 	read_string_data_mem:
-	;read character pointed to by y
-	ld r16, y+
-	;check if null
-	cpi r16, 0x00
-	breq null
-	not_null:
-	rcall OUT_CHAR
-	rjmp read_string_data_mem
-	null:
+		;read character pointed to by y
+		ld r16, y+
+		;check if null
+		cpi r16, 0x00
+		breq null
+		not_null:
+		rcall OUT_CHAR
+		rjmp read_string_data_mem
+		null:
 	pop r16
 ret
 

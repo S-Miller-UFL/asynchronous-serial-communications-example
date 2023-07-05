@@ -1,19 +1,19 @@
 <ASSEMBLER_INFO>
  <VERSION>2.2.8</VERSION>
  <DEVICE>"ATxmega128A1U"</DEVICE>
- <WORKING_DIR>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\Debug</WORKING_DIR>
+ <WORKING_DIR>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\Debug</WORKING_DIR>
  <INCLUDE_PATH>
   <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc</DIR>
   <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
   <DIR></DIR>
  </INCLUDE_PATH>
- <SOURCE_FILE>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm</SOURCE_FILE>
+ <SOURCE_FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</SOURCE_FILE>
  <INCLUDED_FILES>
   <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc\ATxmega128A1Udef.inc</FILE>
   <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc\ATxmega128a1udef.inc</FILE>
  </INCLUDED_FILES>
  <OBJECT_FILES>
-  <FILE>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\Debug\lab 5.obj</FILE>
+  <FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\Debug\lab 5.obj</FILE>
  </OBJECT_FILES>
  <HEX_FILES>
   <FILE>lab 5.hex</FILE>
@@ -23,13 +23,22 @@
   <FILE>lab 5.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <main><FILE>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm</FILE><LINE>34</LINE></main>
-  <USART_INIT><FILE>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm</FILE><LINE>54</LINE></USART_INIT>
-  <loop><FILE>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm</FILE><LINE>41</LINE></loop>
-  <IN_CHAR><FILE>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm</FILE><LINE>103</LINE></IN_CHAR>
-  <OUT_CHAR><FILE>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm</FILE><LINE>85</LINE></OUT_CHAR>
-  <end><FILE>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm</FILE><LINE>45</LINE></end>
-  <transmitter_busy><FILE>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm</FILE><LINE>88</LINE></transmitter_busy>
-  <reciever_busy><FILE>C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm</FILE><LINE>106</LINE></reciever_busy>
+  <DATA_MEMORY><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>32</LINE></DATA_MEMORY>
+  <main><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>43</LINE></main>
+  <USART_INIT><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>65</LINE></USART_INIT>
+  <loop><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>52</LINE></loop>
+  <IN_STRING><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>131</LINE></IN_STRING>
+  <OUT_STRING_DATA_MEMORY><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>165</LINE></OUT_STRING_DATA_MEMORY>
+  <end><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>56</LINE></end>
+  <OUT_CHAR><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>96</LINE></OUT_CHAR>
+  <transmitter_busy><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>99</LINE></transmitter_busy>
+  <IN_CHAR><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>114</LINE></IN_CHAR>
+  <reciever_busy><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>117</LINE></reciever_busy>
+  <read_string><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>133</LINE></read_string>
+  <is_return><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>152</LINE></is_return>
+  <is_backspace_or_delete><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>148</LINE></is_backspace_or_delete>
+  <read_string_data_mem><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>167</LINE></read_string_data_mem>
+  <null><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>176</LINE></null>
+  <not_null><FILE>C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm</FILE><LINE>173</LINE></not_null>
  </LABELS>
 </ASSEMBLER_INFO>

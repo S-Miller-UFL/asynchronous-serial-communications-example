@@ -1,10 +1,10 @@
 
-AVRASM ver. 2.2.8  C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm Mon Jul 03 09:56:49 2023
+AVRASM ver. 2.2.8  C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm Mon Jul 03 10:21:50 2023
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc\ATxmega128A1Udef.inc'
-C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc\ATxmega128a1udef.inc'
+C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm(10): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc\ATxmega128a1udef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc\ATxmega128A1Udef.inc'
-C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc\ATxmega128a1udef.inc'
+C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm(10): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\avrasm\inc\ATxmega128a1udef.inc'
                                  
                                  ;*******************************************
                                  
@@ -6715,7 +6715,7 @@ C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file '
                                  
                                  
                                  
-                                 ;Lab 5, Section 5
+                                 ;Lab 5, Section 6
                                  ;Name: Steven Miller
                                  ;Class #: 11318
                                  ;PI Name: Anthony Stross
@@ -6758,6 +6758,11 @@ C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file '
                                  ;*********************************EQUATES********************************
                                  .equ bsel = 47
                                  .equ bscale = -6
+                                 .EQU SRAM_TABLE_LOC = 0x2000
+                                 .EQU SRAM_TABLE_SIZE = 500
+                                 .EQU return_char = 0x0d
+                                 .EQU backspace_char = 0x08
+                                 .EQU delete_char = 0x7f
                                  ;*******************************END OF EQUATES*******************************
                                  
                                  ;*********************************DEFS********************************
@@ -6767,6 +6772,10 @@ C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file '
                                  ;***********END OF PROGRAM MEMORY CONFIGURATION***************
                                  
                                  ;***********DATA MEMORY CONFIGURATION*************************
+                                 .DSEG
+                                 .org SRAM_TABLE_LOC
+                                 DATA_MEMORY: 
+002000                           .BYTE SRAM_TABLE_SIZE
                                  
                                  ;***********END OF DATA MEMORY CONFIGURATION***************
                                  
@@ -6782,13 +6791,15 @@ C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file '
 000201 bf0d                      	out CPU_SPL, r16
 000202 e30f                      	ldi r16, high(0x3fff)
 000203 bf0e                      	out CPU_SPH, r16
-000204 d004                      	rcall USART_INIT
+000204 d006                      	rcall USART_INIT
+000205 e0c0                      	ldi yl, low(sram_table_loc)
+000206 e2d0                      	ldi yh, high(sram_table_loc)
                                  	loop:
-000205 d025                      		rcall IN_CHAR
-000206 d01b                      		rcall OUT_CHAR
-000207 cffd                      	rjmp loop
+000207 d02e                      		rcall IN_STRING
+000208 d03d                      		rcall OUT_STRING_DATA_MEMORY
+000209 cffd                      	rjmp loop
                                  end:
-000208 cfff                      rjmp end
+00020a cfff                      rjmp end
                                  
                                  ;****************************************************
                                  ; Name: USART_INIT
@@ -6797,30 +6808,30 @@ C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file '
                                  ; Output: N/A
                                  ;****************************************************
                                  USART_INIT:
-000209 930f                      	push r16
+00020b 930f                      	push r16
                                  	;set port d pin 2 as input and port d pin 3 as output
-00020a e004                      	ldi r16, 0b00000100
-00020b 9300 0666                 	sts PORTD_OUTCLR,r16
-00020d 9300 0662                 	sts PORTD_DIRCLR, r16
-00020f e008                      	ldi r16, 0b00001000
-000210 9300 0665                 	sts PORTD_OUTSET,r16
-000212 9300 0661                 	sts PORTD_DIRSET, r16
+00020c e004                      	ldi r16, 0b00000100
+00020d 9300 0666                 	sts PORTD_OUTCLR,r16
+00020f 9300 0662                 	sts PORTD_DIRCLR, r16
+000211 e008                      	ldi r16, 0b00001000
+000212 9300 0665                 	sts PORTD_OUTSET,r16
+000214 9300 0661                 	sts PORTD_DIRSET, r16
                                  	;enable transmitter and reciever
-000214 e108                      	ldi r16, 0b00011000
-000215 9300 09a4                 	sts USARTD0_CTRLB, r16
+000216 e108                      	ldi r16, 0b00011000
+000217 9300 09a4                 	sts USARTD0_CTRLB, r16
                                  	;set transmission to asynchronous and parity to odd 
                                  	;and set number of stop bits to 1 and set character size to 8 bits
-000217 e303                      	ldi r16,(USART_PMODE_ODD_gc|USART_CMODE_ASYNCHRONOUS_gc|USART_CHSIZE_8BIT_gc)
-000218 9300 09a5                 	sts USARTD0_CTRLC, r16
+000219 e303                      	ldi r16,(USART_PMODE_ODD_gc|USART_CMODE_ASYNCHRONOUS_gc|USART_CHSIZE_8BIT_gc)
+00021a 9300 09a5                 	sts USARTD0_CTRLC, r16
                                  	;set baud rate to 72000 bps
                                  	;bsel = 47
                                  	;bscale = -6
-00021a e20f                      	ldi r16, low(bsel)
-00021b 9300 09a6                 	sts USARTD0_BAUDCTRLA, r16
-00021d ea00                      	ldi r16, ((bscale<<4) | (high(bsel))) ;1010 = -6
-00021e 9300 09a7                 	sts USARTD0_BAUDCTRLB, r16
-000220 910f                      	pop r16
-000221 9508                      ret
+00021c e20f                      	ldi r16, low(bsel)
+00021d 9300 09a6                 	sts USARTD0_BAUDCTRLA, r16
+00021f ea00                      	ldi r16, ((bscale<<4) | (high(bsel))) ;1010 = -6
+000220 9300 09a7                 	sts USARTD0_BAUDCTRLB, r16
+000222 910f                      	pop r16
+000223 9508                      ret
                                  ;****************************************************
                                  ; Name: OUT_CHAR
                                  ; Purpose:TRANSMIT CHARACTER OUT OF PORT D TO USB
@@ -6828,16 +6839,16 @@ C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file '
                                  ; Output: USARTD0_DATA
                                  ;****************************************************
                                  OUT_CHAR:
-000222 931f                      	push r17
+000224 931f                      	push r17
                                  	;check if transmitter busy
                                  	transmitter_busy:
-000223 9110 09a1                 	lds r17, USARTD0_STATUS
-000225 ff15                      	sbrs r17, USART_DREIF_bp
-000226 cffc                      	rjmp transmitter_busy
+000225 9110 09a1                 	lds r17, USARTD0_STATUS
+000227 ff15                      	sbrs r17, USART_DREIF_bp
+000228 cffc                      	rjmp transmitter_busy
                                  	;load character into transmitter data register
-000227 9300 09a0                 	sts USARTD0_DATA, r16
-000229 911f                      	pop r17
-00022a 9508                      ret
+000229 9300 09a0                 	sts USARTD0_DATA, r16
+00022b 911f                      	pop r17
+00022c 9508                      ret
                                  
                                  ;****************************************************
                                  ; Name: IN_CHAR
@@ -6846,16 +6857,71 @@ C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_5.asm(10): Including file '
                                  ; Output:N/A
                                  ;****************************************************
                                  IN_CHAR:
-00022b 931f                      	push r17
+00022d 931f                      	push r17
                                  	;check if reciever busy
                                  	reciever_busy:
-00022c 9110 09a1                 	lds r17, USARTD0_STATUS
-00022e ff17                      	sbrs r17, USART_RXCIF_bp
-00022f cffc                      	rjmp reciever_busy
+00022e 9110 09a1                 	lds r17, USARTD0_STATUS
+000230 ff17                      	sbrs r17, USART_RXCIF_bp
+000231 cffc                      	rjmp reciever_busy
                                  	;load character into reciever data register
-000230 9100 09a0                 	lds r16, USARTD0_DATA
-000232 911f                      	pop r17
-000233 9508                      ret
+000232 9100 09a0                 	lds r16, USARTD0_DATA
+000234 911f                      	pop r17
+000235 9508                      ret
+                                 ;****************************************************
+                                 ; Name: IN_STRING
+                                 ; Purpose: RECIEVES CHARACTER STRING FROM USB TO RECIEVER
+                                 ; Input(s):USARTD0_DATA
+                                 ; Output:N/A
+                                 ;****************************************************
+                                 IN_STRING:
+                                 
+                                 	read_string:
+000236 dff6                      		RCALL IN_CHAR
+                                 		;check if character is return
+000237 300d                      		cpi r16, return_char
+000238 f041                      		breq is_return
+                                 		;check if character is backspace
+000239 3008                      		cpi r16, backspace_char
+00023a f021                      		breq is_backspace_or_delete
+                                 		;check if character is delete
+00023b 370f                      		cpi r16, delete_char
+00023c f011                      		breq is_backspace_or_delete
+                                 		;if none
+00023d 9309                      		st y+, r16
+00023e cff7                      		rjmp read_string
+                                 		;if character is backspace or delete
+                                 		is_backspace_or_delete:
+00023f 9721                      		sbiw y, 1
+000240 cff5                      	rjmp read_string
+                                 	;if return
+                                 	is_return:
+000241 e000                      	ldi r16, 0x00
+000242 8308                      	st y, r16
+                                 	;reset y pointer
+000243 e0c0                      	ldi yl, low(sram_table_loc)
+000244 e2d0                      	ldi yh, high(sram_table_loc)
+000245 9508                      ret
+                                 ;****************************************************
+                                 ; Name: OUT_STRING_DATA_MEMORY
+                                 ; Purpose:TRANSMIT CHARACTER STRING IN DATA MEMORY OUT OF PORT D TO USB 
+                                 ; Input(s): N/A
+                                 ; Output: USARTD0_DATA
+                                 ;****************************************************
+                                 OUT_STRING_DATA_MEMORY:
+000246 930f                      	push r16
+                                 	read_string_data_mem:
+                                 		;read character pointed to by y
+000247 9109                      		ld r16, y+
+                                 		;check if null
+000248 3000                      		cpi r16, 0x00
+000249 f011                      		breq null
+                                 		not_null:
+00024a dfd9                      		rcall OUT_CHAR
+00024b cffb                      		rjmp read_string_data_mem
+                                 		null:
+00024c 910f                      	pop r16
+00024d 9508                      ret
+                                 
 
 
 RESOURCE USE INFORMATION
@@ -6873,42 +6939,42 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 "ATxmega128A1U" register use summary:
-x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
+x  :   0 y  :   4 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  22 r17:   8 r18:   0 r19:   0 r20:   0 
-r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
-r29:   0 r30:   0 r31:   0 
-Registers used: 2 out of 35 (5.7%)
+r13:   0 r14:   0 r15:   0 r16:  32 r17:   8 r18:   0 r19:   0 r20:   0 
+r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   2 
+r29:   2 r30:   0 r31:   0 
+Registers used: 5 out of 35 (14.3%)
 
 "ATxmega128A1U" instruction use summary:
 .lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
-brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
+brcc  :   0 brcs  :   0 break :   0 breq  :   4 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
 brne  :   0 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
 brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :   0 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   0 cpse  :   0 dec   :   0 des   :   0 eicall:   0 eijmp :   0 
+cpi   :   4 cpse  :   0 dec   :   0 des   :   0 eicall:   0 eijmp :   0 
 elpm  :   0 eor   :   0 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 
 ijmp  :   0 in    :   0 inc   :   0 jmp   :   0 lac   :   0 las   :   0 
-lat   :   0 ld    :   0 ldd   :   0 ldi   :   8 lds   :   3 lpm   :   0 
+lat   :   0 ld    :   1 ldd   :   0 ldi   :  13 lds   :   3 lpm   :   0 
 lsl   :   0 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 
 mulsu :   0 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   2 
-pop   :   3 push  :   3 rcall :   3 ret   :   3 reti  :   0 rjmp  :   5 
+pop   :   4 push  :   4 rcall :   5 ret   :   5 reti  :   0 rjmp  :   8 
 rol   :   0 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 
-sbis  :   0 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   2 sec   :   0 
+sbis  :   0 sbiw  :   1 sbr   :   0 sbrc  :   0 sbrs  :   2 sec   :   0 
 seh   :   0 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 
-sev   :   0 sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 
+sev   :   0 sez   :   0 sleep :   0 spm   :   0 st    :   2 std   :   0 
 sts   :   9 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
 xch   :   0 
-Instructions used: 10 out of 121 (8.3%)
+Instructions used: 15 out of 121 (12.4%)
 
 "ATxmega128A1U" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000468    106      0    106  139264   0.1%
-[.dseg] 0x002000 0x002000      0      0      0    8192   0.0%
+[.cseg] 0x000000 0x00049c    158      0    158  139264   0.1%
+[.dseg] 0x002000 0x0021f4      0    500    500    8192   6.1%
 [.eseg] 0x000000 0x000000      0      0      0    2048   0.0%
 
 Assembly complete, 0 errors, 0 warnings
