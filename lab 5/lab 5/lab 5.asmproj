@@ -15,7 +15,7 @@
     <Name>lab 5</Name>
     <RootNamespace>lab 5</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
-    <EntryFile>$(MSBuildProjectDirectory)\lab5_6.asm</EntryFile>
+    <EntryFile>$(MSBuildProjectDirectory)\lab5_3.asm</EntryFile>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
@@ -84,6 +84,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="lab5_6.asm">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="lab5_7.asm">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

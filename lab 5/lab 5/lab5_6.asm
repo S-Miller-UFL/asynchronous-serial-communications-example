@@ -3,7 +3,7 @@
 ;Name: Steven Miller
 ;Class #: 11318
 ;PI Name: Anthony Stross
-;Description: recieves serial data from computer
+;Description: recieves serial data from computer and allows backspace
 ;*******************************************
 
 ;***************INCLUDES*************************************
@@ -174,6 +174,8 @@ OUT_STRING_DATA_MEMORY:
 		rcall OUT_CHAR
 		rjmp read_string_data_mem
 		null:
+		;ldi yl, low(sram_table_loc)
+		;ldi yh, high(sram_table_loc)
 	pop r16
 ret
 

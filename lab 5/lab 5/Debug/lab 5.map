@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\steve\git repos\school\EEL4744\lab 5\lab 5\lab 5\lab5_6.asm Mon Jul 03 10:21:50 2023
+AVRASM ver. 2.2.8  C:\Users\steve\source\eel3744\lab 5\lab 5\lab 5\lab5_3.asm Fri Jul 07 12:51:42 2023
 
 
 EQU  SIGNATURE_000 0000001e
@@ -4883,25 +4883,9 @@ EQU  SPI_INT_voffset 00000000
 EQU  INT_VECTORS_SIZE 000000fe
 EQU  bsel         0000002f
 EQU  bscale       fffffffa
-EQU  SRAM_TABLE_LOC 00002000
-EQU  SRAM_TABLE_SIZE 000001f4
-EQU  return_char  0000000d
-EQU  backspace_char 00000008
-EQU  delete_char  0000007f
-DSEG DATA_MEMORY  00002000
 CSEG main         00000200
-CSEG USART_INIT   0000020b
-CSEG loop         00000207
-CSEG IN_STRING    00000236
-CSEG OUT_STRING_DATA_MEMORY 00000246
-CSEG end          0000020a
-CSEG OUT_CHAR     00000224
-CSEG transmitter_busy 00000225
-CSEG IN_CHAR      0000022d
-CSEG reciever_busy 0000022e
-CSEG read_string  00000236
-CSEG is_return    00000241
-CSEG is_backspace_or_delete 0000023f
-CSEG read_string_data_mem 00000247
-CSEG null         0000024c
-CSEG not_null     0000024a
+CSEG USART_INIT   00000209
+CSEG loop         00000205
+CSEG OUT_CHAR     0000021d
+CSEG end          00000208
+CSEG transmitter_busy 0000021e
